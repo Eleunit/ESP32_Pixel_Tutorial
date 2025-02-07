@@ -4,7 +4,7 @@
 #include <SPI.h>
 #include <Wire.h>
 #include <PCA9557.h>
-#include "gfx_config.h"   //Please modify the setting of display driver according to the board you are using in gfx_conf.h.
+#include "gfx_config.h"
 
 //Modify the corresponding pin according to the circuit diagram.
 #define SD_MOSI 11
@@ -61,9 +61,8 @@ void listDir(fs::FS & fs, const char *dirname, uint8_t levels)
 
 int sd_init()
 {
-  //SD_SPI.begin(SD_SCK, SD_MISO, SD_MOSI);
   SD_SPI.begin(SD_SCK, SD_MISO, SD_MOSI, -1);
-  if (!SD.begin(-1, SD_SPI, 4000000))
+  if (!SD.begin(-1, SD_SPI, 120000000))
   {
     Serial.println("Card Mount Failed");
     return 1;
@@ -110,7 +109,7 @@ void setup()
 
 void loop() {
   //display images you place in SD Card
-  displayPhoto("/1.bmp",0,0);
+  displayPhoto("/sub/hello.bmp",0,0);
   delay(1000);
   displayPhoto("/2.bmp",0,0);
   delay(1000);
