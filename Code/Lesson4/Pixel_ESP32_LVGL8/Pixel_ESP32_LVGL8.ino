@@ -13,7 +13,6 @@ static lv_disp_draw_buf_t draw_buf;
 static lv_color_t disp_draw_buf1[screenWidth * screenHeight / 8];
 static lv_color_t disp_draw_buf2[screenWidth * screenHeight / 8];
 
-
 /* Display flushing */
 void my_disp_flush(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color_p)
 {
@@ -68,8 +67,7 @@ void lvgl_driver_function_init()
   disp_drv.hor_res = screenWidth;
   disp_drv.ver_res = screenHeight;
   disp_drv.flush_cb = my_disp_flush;
-  //disp_drv.full_refresh = 1;
-  //disp_drv.direct_mode = 1;
+  disp_drv.full_refresh = 1;
   disp_drv.draw_buf = &draw_buf;
   lv_disp_drv_register(&disp_drv);
 
@@ -96,11 +94,10 @@ void setup()
   Out.setMode(IO1, IO_INPUT);
   Out.setState(IO3, IO_HIGH);
 
-  Serial.println("LVGL_Arduino");
   //Display Prepare
   tft.begin();
   tft.fillScreen(TFT_BLACK);
-  Serial.println("TFT INIT");
+  Serial.println("TFT_init");
   lv_init();
   Serial.println("LV_init");
 
@@ -113,16 +110,14 @@ void setup()
   // lv_demo_music();              
   // lv_demo_printer();
   // lv_demo_stress();
+  
 }
+
 
 void loop()
 {
-  long last_time = millis();
-
-  delay(3);
-
+  delay(5);
   lv_timer_handler(); /* let the GUI do its work */
-	lv_tick_inc(int(millis() - last_time));
 }
 
 
